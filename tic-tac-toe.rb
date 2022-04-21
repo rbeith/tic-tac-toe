@@ -33,13 +33,13 @@ class Board < Player
     end
     
     def update_board(input)
-        @space[input -1] = 'x'
+        @space[input - 1] = 'x'
         puts @board = "| #{@space[0]} | #{@space[1]} | #{@space[2]} |\n| #{@space[3]} | #{@space[4]} | #{@space[5]} |\n| #{@space[6]} | #{@space[7]} | #{@space[8]} |"
     end
 end
 
 x = Player.new('x')
-o = Player.new('o')  
+o = Player.new('o')
 board = Board.new
 board.make_board
 board.update_board(x.player_choice)
