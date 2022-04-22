@@ -1,9 +1,3 @@
-# module Scoring
-#   def win_condition
-   
-#   end
-# end
-
 class Game
   @game_over = false
   @board
@@ -18,18 +12,27 @@ class Game
   end
 
   def check_win_condition
-    if (@board.space[0] == 'x' && @board.space[1] == 'x' && @board.space[2] == 'x') || 
-      (@board.space[3] == 'x' && @board.space[4] == 'x' && @board.space[5] == 'x') || 
-      (@board.space[6] == 'x' && @board.space[7] == 'x' && @board.space[8] == 'x') ||
-      (@board.space[0] == 'x' && @board.space[4] == 'x' && @board.space[8] == 'x') ||
-      (@board.space[2] == 'x' && @board.space[4] == 'x' && @board.space[6] == 'x') ||
-      (@board.space[0] == 'o' && @board.space[1] == 'o' && @board.space[2] == 'o') || 
-      (@board.space[3] == 'o' && @board.space[4] == 'o' && @board.space[5] == 'o') || 
-      (@board.space[6] == 'o' && @board.space[7] == 'o' && @board.space[8] == 'o') ||
-      (@board.space[0] == 'o' && @board.space[4] == 'o' && @board.space[8] == 'o') ||
-      (@board.space[2] == 'o' && @board.space[4] == 'o' && @board.space[6] == 'o')
-    @game_over = true
-    puts 'Three in a row. Tic-Tac-Toe'
+    if @board.space.values_at(0, 1, 2).all?('x') ||
+      @board.space.values_at(0, 1, 2).all?('o') ||      
+      @board.space.values_at(3, 4, 5).all?('x') ||      
+      @board.space.values_at(3, 4, 5).all?('o') ||      
+      @board.space.values_at(6, 7, 8).all?('x') ||      
+      @board.space.values_at(6, 7, 8).all?('o') ||
+      @board.space.values_at(0, 4, 8).all?('x') ||
+      @board.space.values_at(0, 4, 8).all?('o') ||
+      @board.space.values_at(2, 4, 6).all?('x') ||
+      @board.space.values_at(2, 4, 6).all?('o') ||
+      @board.space.values_at(0, 3, 6).all?('x') ||
+      @board.space.values_at(0, 3, 6).all?('o') ||
+      @board.space.values_at(1, 4, 7).all?('x') ||
+      @board.space.values_at(1, 4, 7).all?('o') ||
+      @board.space.values_at(2, 5, 8).all?('x') ||
+      @board.space.values_at(2, 5, 8).all?('o')
+        @game_over = true
+        puts 'Three in a row. Tic-Tac-Toe'
+    elsif @board.space.all? { |marks| marks == 'x' || marks == 'o'}
+      @game_over = true
+      puts 'Looks like a tie. Better luck next time.'
     end
   end
 
@@ -80,11 +83,5 @@ class Board < Player
   end
 end
 
-
-
 game = Game.new
 game.play_game
-
-# Pseudocode--
-#
-#
