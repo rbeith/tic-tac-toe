@@ -3,12 +3,14 @@ class Game
   @board
   @x
   @o 
+  @winner
 
   def initialize
     @x = Player.new('x')
     @o = Player.new('o')
     @board = Board.new
     @board.make_board
+    @winner = ''
   end
 
   def check_win_condition
@@ -29,22 +31,43 @@ class Game
       @board.space.values_at(2, 5, 8).all?('x') ||
       @board.space.values_at(2, 5, 8).all?('o')
         @game_over = true
-        puts 'Three in a row. Tic-Tac-Toe'
-    elsif @board.space.all? { |marks| marks == 'x' || marks == 'o'}
-      @game_over = true
-      puts 'Looks like a tie. Better luck next time.'
-    end
+      elsif @board.space.all? { |marks| marks == 'x' || marks == 'o'}
+        @game_over = true
+        puts 'Looks like a tie. Better luck next time.'
+      end
+      
+      def declare_winner
+        puts "\nThat's three in a row: Tic-Tac-Toe! Player '#{@winner}' wins!!\n"
+      end
   end
 
   def play_game
     until @game_over == true
       @board.update_board(@x.choose_space, 'x')
+      if @board.empty_space == false
+        while @board.empty_space == false
+          puts @board.make_board
+          @board.update_board(@x.choose_space, 'x')
+        end
+      end
       check_win_condition
       if @game_over == true
+        @winner = @x.name
+        declare_winner
         break
       end
       @board.update_board(@o.choose_space, 'o')
+      if @board.empty_space == false
+        while @board.empty_space == false
+          puts @board.make_board
+          @board.update_board(@o.choose_space, 'o')
+        end
       check_win_condition
+      end
+      if @game_over == true
+        @winner = @o.name
+        declare_winner
+      end
     end
   end
 end
@@ -58,19 +81,19 @@ class Player < Game
   end
 
   def choose_space
-    puts "Player '#{@name}', enter a number to choose where to put your mark."
+    puts "\nPlayer '#{@name}', enter the number of the space you want to mark."
     @player_choice = gets.chomp.to_i
-    puts "You chose space '#{@player_choice}'"
+    puts "\nYou marked space '#{@player_choice}'."
     @player_choice
   end
 end
 
 class Board < Player
-  attr_accessor :space, :board
+  attr_accessor :space, :board, :empty_space
 
   def initialize
     @space = (1..9).to_a
-    @board = "| #{@space[0]} | #{@space[1]} | #{@space[2]} |\n| #{@space[3]} | #{@space[4]} | #{@space[5]} |\n| #{@space[6]} | #{@space[7]} | #{@space[8]} |"
+    @board = "\n| #{@space[0]} | #{@space[1]} | #{@space[2]} |\n| #{@space[3]} | #{@space[4]} | #{@space[5]} |\n| #{@space[6]} | #{@space[7]} | #{@space[8]} |\n"
   end
 
   def make_board
@@ -78,8 +101,19 @@ class Board < Player
   end
 
   def update_board(input, mark)
-    @space[input - 1] = mark
-    puts @board = "| #{@space[0]} | #{@space[1]} | #{@space[2]} |\n| #{@space[3]} | #{@space[4]} | #{@space[5]} |\n| #{@space[6]} | #{@space[7]} | #{@space[8]} |"
+    check_space(input)
+    if @empty_space == true
+      @space[input - 1] = mark
+      puts @board = "\n| #{@space[0]} | #{@space[1]} | #{@space[2]} |\n| #{@space[3]} | #{@space[4]} | #{@space[5]} |\n| #{@space[6]} | #{@space[7]} | #{@space[8]} |\n"
+    end
+  end
+
+  def check_space(input)
+    @empty_space = true
+    if @space[input - 1] == 'x' || @space[input - 1] == 'o'
+      @empty_space = false
+      puts "'#{space[input - 1]}' already took that spot. \nChoose another space."
+    end
   end
 end
 
