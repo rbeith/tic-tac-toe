@@ -17,14 +17,31 @@ class Game
     @board.make_board
   end
 
+  def check_win_condition
+    if (@board.space[0] == 'x' && @board.space[1] == 'x' && @board.space[2] == 'x') || 
+      (@board.space[3] == 'x' && @board.space[4] == 'x' && @board.space[5] == 'x') || 
+      (@board.space[6] == 'x' && @board.space[7] == 'x' && @board.space[8] == 'x') ||
+      (@board.space[0] == 'x' && @board.space[4] == 'x' && @board.space[8] == 'x') ||
+      (@board.space[2] == 'x' && @board.space[4] == 'x' && @board.space[6] == 'x') ||
+      (@board.space[0] == 'o' && @board.space[1] == 'o' && @board.space[2] == 'o') || 
+      (@board.space[3] == 'o' && @board.space[4] == 'o' && @board.space[5] == 'o') || 
+      (@board.space[6] == 'o' && @board.space[7] == 'o' && @board.space[8] == 'o') ||
+      (@board.space[0] == 'o' && @board.space[4] == 'o' && @board.space[8] == 'o') ||
+      (@board.space[2] == 'o' && @board.space[4] == 'o' && @board.space[6] == 'o')
+    @game_over = true
+    puts 'Three in a row. Tic-Tac-Toe'
+    end
+  end
+
   def play_game
     until @game_over == true
       @board.update_board(@x.choose_space, 'x')
-      @board.update_board(@o.choose_space, 'o')
-      if @board.space[0] == 'x' && @board.space[1] == 'x' && @board.space[2] == 'x'
-        @game_over = true
-        puts 'Three in a row. Tic-Tac-Toe'
+      check_win_condition
+      if @game_over == true
+        break
       end
+      @board.update_board(@o.choose_space, 'o')
+      check_win_condition
     end
   end
 end
