@@ -2,7 +2,7 @@ class Game
   @game_over = false
   @board
   @x
-  @o 
+  @o
   @winner
 
   def initialize
@@ -15,30 +15,30 @@ class Game
 
   def check_win_condition
     if @board.space.values_at(0, 1, 2).all?('x') ||
-      @board.space.values_at(0, 1, 2).all?('o') ||      
-      @board.space.values_at(3, 4, 5).all?('x') ||      
-      @board.space.values_at(3, 4, 5).all?('o') ||      
-      @board.space.values_at(6, 7, 8).all?('x') ||      
-      @board.space.values_at(6, 7, 8).all?('o') ||
-      @board.space.values_at(0, 4, 8).all?('x') ||
-      @board.space.values_at(0, 4, 8).all?('o') ||
-      @board.space.values_at(2, 4, 6).all?('x') ||
-      @board.space.values_at(2, 4, 6).all?('o') ||
-      @board.space.values_at(0, 3, 6).all?('x') ||
-      @board.space.values_at(0, 3, 6).all?('o') ||
-      @board.space.values_at(1, 4, 7).all?('x') ||
-      @board.space.values_at(1, 4, 7).all?('o') ||
-      @board.space.values_at(2, 5, 8).all?('x') ||
-      @board.space.values_at(2, 5, 8).all?('o')
-        @game_over = true
-      elsif @board.space.all? { |marks| marks == 'x' || marks == 'o'}
-        @game_over = true
-        puts 'Looks like a tie. Better luck next time.'
-      end
-      
-      def declare_winner
-        puts "\nThat's three in a row: Tic-Tac-Toe! Player '#{@winner}' wins!!\n"
-      end
+       @board.space.values_at(0, 1, 2).all?('o') ||
+       @board.space.values_at(3, 4, 5).all?('x') ||
+       @board.space.values_at(3, 4, 5).all?('o') ||
+       @board.space.values_at(6, 7, 8).all?('x') ||
+       @board.space.values_at(6, 7, 8).all?('o') ||
+       @board.space.values_at(0, 4, 8).all?('x') ||
+       @board.space.values_at(0, 4, 8).all?('o') ||
+       @board.space.values_at(2, 4, 6).all?('x') ||
+       @board.space.values_at(2, 4, 6).all?('o') ||
+       @board.space.values_at(0, 3, 6).all?('x') ||
+       @board.space.values_at(0, 3, 6).all?('o') ||
+       @board.space.values_at(1, 4, 7).all?('x') ||
+       @board.space.values_at(1, 4, 7).all?('o') ||
+       @board.space.values_at(2, 5, 8).all?('x') ||
+       @board.space.values_at(2, 5, 8).all?('o')
+      @game_over = true
+    elsif @board.space.all? { |marks| marks == 'x' || marks == 'o'}
+      @game_over = true
+      puts 'Looks like a tie. Better luck next time.'
+    end
+  end
+
+  def declare_winner
+    puts "\nThat's three in a row: Tic-Tac-Toe! Player '#{@winner}' wins!!\n"
   end
 
   def play_game
@@ -50,20 +50,25 @@ class Game
           @board.update_board(@x.choose_space, 'x')
         end
       end
+
       check_win_condition
+
       if @game_over == true
         @winner = @x.name
         declare_winner
         break
       end
+
       @board.update_board(@o.choose_space, 'o')
+
       if @board.empty_space == false
         while @board.empty_space == false
           puts @board.make_board
           @board.update_board(@o.choose_space, 'o')
         end
-      check_win_condition
+        check_win_condition
       end
+
       if @game_over == true
         @winner = @o.name
         declare_winner
